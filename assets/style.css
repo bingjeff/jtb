@@ -1,0 +1,19 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+canvas {
+  position: absolute;
+  z-index: 2;
+}
+.bg-container {
+  background-image: url("goodales_cutoff_horse_shadow.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
