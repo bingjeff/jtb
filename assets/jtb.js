@@ -427,11 +427,11 @@ function updateDrawingScale() {
 }
 
 function updateChangeVelocity() {
-    const dx = mouseX - pmouseX;
-    const dy = mouseY - pmouseY;
-    const speed = 0.001 * Math.sqrt(dx*dx + dy*dy);
-    const default_speed = 0.001;
-    time_delta = 0.5 * time_delta + 0.5 * (default_speed + speed)
+  const dx = mouseX - pmouseX;
+  const dy = mouseY - pmouseY;
+  const speed = 0.001 * Math.sqrt(dx * dx + dy * dy);
+  const default_speed = 0.005;
+  time_delta = 0.5 * time_delta + 0.5 * (default_speed + speed);
 }
 
 function setup() {
@@ -454,29 +454,40 @@ function mouseClicked() {
 }
 
 function draw() {
-    updateChangeVelocity();
+  updateChangeVelocity();
   current_t += time_delta;
   if (current_t > 1.0) {
-    old_index = new_index;
-    new_index = Math.floor(Math.random() * vertices_b.length);
-    if (new_index === old_index) {
-      mouseClicked();
-    }
-    current_t = 0.0;
+    mouseClicked();
   }
 
   clear();
   translate(0.5 * windowWidth, 0.5 * windowHeight);
-
   noStroke();
+  rectMode(CENTER);
   fill(255, 255, 255);
   scale(drawing_scale);
 
   draw_t(vertices_t[old_index], vertices_t[new_index], current_t);
 
   translate(-0.52, 0);
+  if (
+    (new_index === 0 && current_t < 0.5) ||
+    (new_index === 3 && current_t > 0.5)
+  ) {
+    erase();
+    rect(0.0, 0, 0.5, 1.0);
+    noErase();
+  }
   draw_j(vertices_j[old_index], vertices_j[new_index], current_t);
 
   translate(1.16, 0);
+  if (
+    (new_index === 0 && current_t < 0.5) ||
+    (new_index === 3 && current_t > 0.5)
+  ) {
+    erase();
+    rect(-0.1, 0, 0.5, 1.0);
+    noErase();
+  }
   draw_b(vertices_b[old_index], vertices_b[new_index], current_t);
 }
